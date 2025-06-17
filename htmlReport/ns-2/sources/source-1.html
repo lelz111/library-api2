@@ -1,0 +1,173 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > BookService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.library_api.service</a>
+</div>
+
+<h1>Coverage Summary for Class: BookService (com.example.library_api.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BookService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (23/23)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.library_api.service;
+&nbsp;
+&nbsp;import com.example.library_api.dto.BookRequestDto;
+&nbsp;import com.example.library_api.dto.BookResponseDto;
+&nbsp;import com.example.library_api.model.Book;
+&nbsp;import com.example.library_api.repository.BookRepository;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class BookService {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private BookRepository bookRepository;
+&nbsp;
+&nbsp;    public BookResponseDto createBook(BookRequestDto dto) {
+<b class="fc">&nbsp;        Book book = new Book();</b>
+<b class="fc">&nbsp;        book.setTitle(dto.getTitle());</b>
+<b class="fc">&nbsp;        book.setStock(dto.getStock());</b>
+&nbsp;
+<b class="fc">&nbsp;        Book saved = bookRepository.save(book);</b>
+&nbsp;
+<b class="fc">&nbsp;        return mapToDto(saved);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;BookResponseDto&gt; getAllBooks() {
+<b class="fc">&nbsp;        return bookRepository.findAll().stream()</b>
+<b class="fc">&nbsp;                .map(this::mapToDto)</b>
+<b class="fc">&nbsp;                .collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public BookResponseDto getBookById(Long id) {
+<b class="fc">&nbsp;        Book book = bookRepository.findById(id)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new RuntimeException(&quot;Book not found&quot;));</b>
+<b class="fc">&nbsp;        return mapToDto(book);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private BookResponseDto mapToDto(Book book) {
+<b class="fc">&nbsp;        BookResponseDto dto = new BookResponseDto();</b>
+<b class="fc">&nbsp;        dto.setId(book.getId());</b>
+<b class="fc">&nbsp;        dto.setTitle(book.getTitle());</b>
+<b class="fc">&nbsp;        dto.setStock(book.getStock());</b>
+<b class="fc">&nbsp;        return dto;</b>
+&nbsp;    }
+&nbsp;    public void decreaseStock(Long bookId) {
+<b class="fc">&nbsp;        Book book = bookRepository.findById(bookId)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new RuntimeException(&quot;Book not found&quot;));</b>
+<b class="fc">&nbsp;        if (book.getStock() &lt;= 0) {</b>
+<b class="fc">&nbsp;            throw new RuntimeException(&quot;Book out of stock&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        book.setStock(book.getStock() - 1);</b>
+<b class="fc">&nbsp;        bookRepository.save(book);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-06-17 12:33</div>
+</div>
+</body>
+</html>

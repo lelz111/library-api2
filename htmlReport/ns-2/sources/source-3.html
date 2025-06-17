@@ -1,0 +1,173 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MemberService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.library_api.service</a>
+</div>
+
+<h1>Coverage Summary for Class: MemberService (com.example.library_api.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MemberService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (20/20)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.library_api.service;
+&nbsp;
+&nbsp;import com.example.library_api.dto.MemberRequestDto;
+&nbsp;import com.example.library_api.dto.MemberResponseDto;
+&nbsp;import com.example.library_api.model.Member;
+&nbsp;import com.example.library_api.repository.MemberRepository;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class MemberService {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private MemberRepository memberRepository;
+&nbsp;
+&nbsp;    public MemberResponseDto createMember(MemberRequestDto dto) {
+<b class="fc">&nbsp;        if (memberRepository.existsByEmail(dto.getEmail())) {</b>
+<b class="fc">&nbsp;            throw new RuntimeException(&quot;Email already exists&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Member member = new Member();</b>
+<b class="fc">&nbsp;        member.setName(dto.getName());</b>
+<b class="fc">&nbsp;        member.setEmail(dto.getEmail());</b>
+&nbsp;
+<b class="fc">&nbsp;        Member saved = memberRepository.save(member);</b>
+&nbsp;
+<b class="fc">&nbsp;        return mapToDto(saved);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;MemberResponseDto&gt; getAllMembers() {
+<b class="fc">&nbsp;        return memberRepository.findAll().stream()</b>
+<b class="fc">&nbsp;                .map(this::mapToDto)</b>
+<b class="fc">&nbsp;                .collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public MemberResponseDto getMemberById(Long id) {
+<b class="fc">&nbsp;        Member member = memberRepository.findById(id)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new RuntimeException(&quot;Member not found&quot;));</b>
+<b class="fc">&nbsp;        return mapToDto(member);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;String&gt; getBorrowedBooks(Long memberId) {
+&nbsp;        // Mocked karena tidak ada relasi, implementasi asli perlu query custom
+<b class="fc">&nbsp;        return List.of(&quot;Sample Book 1&quot;, &quot;Sample Book 2&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private MemberResponseDto mapToDto(Member member) {
+<b class="fc">&nbsp;        MemberResponseDto dto = new MemberResponseDto();</b>
+<b class="fc">&nbsp;        dto.setId(member.getId());</b>
+<b class="fc">&nbsp;        dto.setName(member.getName());</b>
+<b class="fc">&nbsp;        dto.setEmail(member.getEmail());</b>
+<b class="fc">&nbsp;        return dto;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-06-17 12:33</div>
+</div>
+</body>
+</html>
