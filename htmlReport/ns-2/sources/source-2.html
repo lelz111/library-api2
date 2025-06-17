@@ -1,0 +1,152 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > BorrowService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.library_api.service</a>
+</div>
+
+<h1>Coverage Summary for Class: BorrowService (com.example.library_api.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BorrowService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (18/18)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.library_api.service;
+&nbsp;
+&nbsp;import com.example.library_api.dto.BorrowRequestDto;
+&nbsp;import com.example.library_api.dto.BorrowResponseDto;
+&nbsp;import com.example.library_api.model.Borrow;
+&nbsp;import com.example.library_api.repository.BorrowRepository;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.util.List;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class BorrowService {</b>
+&nbsp;
+&nbsp;    @Autowired private BorrowRepository borrowRepository;
+&nbsp;    @Autowired private BookService bookService;
+&nbsp;
+&nbsp;    public BorrowResponseDto borrowBook(BorrowRequestDto dto) {
+<b class="fc">&nbsp;        bookService.decreaseStock(dto.getBookId());</b>
+&nbsp;
+<b class="fc">&nbsp;        Borrow borrow = Borrow.builder()</b>
+<b class="fc">&nbsp;                .bookId(dto.getBookId())</b>
+<b class="fc">&nbsp;                .memberId(dto.getMemberId())</b>
+<b class="fc">&nbsp;                .borrowDate(LocalDate.now())</b>
+<b class="fc">&nbsp;                .build();</b>
+&nbsp;
+<b class="fc">&nbsp;        Borrow saved = borrowRepository.save(borrow);</b>
+&nbsp;
+<b class="fc">&nbsp;        return mapToDto(saved);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;BorrowResponseDto&gt; getBorrowedBooksByMemberId(Long memberId) {
+<b class="fc">&nbsp;        return borrowRepository.findByMemberId(memberId).stream()</b>
+<b class="fc">&nbsp;                .map(this::mapToDto)</b>
+<b class="fc">&nbsp;                .collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private BorrowResponseDto mapToDto(Borrow borrow) {
+<b class="fc">&nbsp;        return BorrowResponseDto.builder()</b>
+<b class="fc">&nbsp;                .id(borrow.getId())</b>
+<b class="fc">&nbsp;                .bookId(borrow.getBookId())</b>
+<b class="fc">&nbsp;                .memberId(borrow.getMemberId())</b>
+<b class="fc">&nbsp;                .borrowDate(borrow.getBorrowDate())</b>
+<b class="fc">&nbsp;                .build();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-06-17 12:33</div>
+</div>
+</body>
+</html>
